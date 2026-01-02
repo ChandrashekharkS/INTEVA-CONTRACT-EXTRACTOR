@@ -1,0 +1,5 @@
+{
+  "name": "Inteva Contract Extractor",
+  "description": "A web application to extract key information from contract documents using AI, manage processed documents, and handle user administration.",
+  "requestFramePermissions": []
+}
