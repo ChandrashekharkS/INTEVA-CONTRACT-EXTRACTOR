@@ -1,26 +1,11 @@
 
-export type View = 'dashboard' | 'grouped' | 'admin' | 'comparison' | 'today' | 'month' | 'database';
-
-export type UserRole = 'Admin' | 'Editor' | 'Viewer';
-
-export interface User {
-  id: string;
-  name: string;
-  email: string;
-  role: UserRole;
-  permissions: string;
-  assignedCompany?: string;
-  password?: string;
-}
-
+// This ensures the backend and frontend agree on the data structure.
 export interface PageExtraction {
   pageNumber: number;
-  text?: string; // Raw OCR text for this specific page
   fields: Partial<ExtractedData>;
 }
 
 export interface ExtractedData {
-  // Key Identifiers
   contractNumber: string;
   amendmentNumber: string;
   partNumber: string;
@@ -28,24 +13,18 @@ export interface ExtractedData {
   drawingNumber: string;
   lessFinishPartNumber?: string;
   programName?: string;
-
-  // Dates
   issueDate: string;
-  effectiveDate: string; // From "This Contract is Effective from"
+  effectiveDate: string;
   sampleRequiredBy?: string;
-  
-  // Parties & Contacts
-  lbe?: string; // Legal Business Entity
+  lbe?: string;
   sellerNameAndAddress: string;
   dunsNumber: string;
   manufacturingDunsNumber?: string;
   buyerNameAndAddress: string;
-  clientName?: string; // Kept for consistency, can be same as buyer
+  clientName?: string;
   purchasingContact?: string;
   buyerCode?: string;
   accountManager?: string;
-
-  // Logistics
   mailingAddressInformation?: string;
   manufacturingLocation: string;
   shippingTo: string;
@@ -57,28 +36,20 @@ export interface ExtractedData {
   hoursPerDay?: string;
   containerType?: string;
   receivingPlants?: string;
-
-  // Pricing
-  currency?: string; // from "All prices are expressed in"
+  currency?: string;
   basePrice?: string;
   totalPrice?: string;
-  unitOfMeasure?: string; // UOM
+  unitOfMeasure?: string;
   paymentTerms?: string;
-
-  // Metadata
   reasonForIssuing?: string;
   hazardousMaterialIndicator?: string;
   language?: string;
-  originalLanguage?: string;
-  
-  // Compliance
   rawMaterialCertAnalysis?: string;
   rawMaterialAnnualCert?: string;
   
-  // Page-wise breakdown
+  // Page-level breakdown
   pages?: PageExtraction[];
 }
-
 
 export interface Document {
   id: string;
@@ -87,9 +58,5 @@ export interface Document {
   contractNo: string;
   processedBy: string;
   processedDate: string;
-  data: ExtractedData; // The frontend will always work with the parsed data object.
-  ExtractedDataJson?: string; // This reflects the raw JSON string from the DB.
-  status?: 'processing' | 'completed' | 'error';
-  errorMessage?: string;
-  fileUrl?: string; // Blob URL to the original file (Session only)
+  data?: ExtractedData;
 }
